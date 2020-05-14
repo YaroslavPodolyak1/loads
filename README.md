@@ -6,7 +6,6 @@ QUEUE_CONNECTION=redis <br>
 SESSION_DRIVER=file <br>
 SESSION_LIFETIME=120
 
-
 To run the application in real time, you need to execute the commands <br>
 - laravel-echo-server start
 - php artisan queue:work

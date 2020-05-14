@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Faker\Generator as Faker;
 
 $factory->define(Load::class, function (Faker $faker) {
-    $imageUrl = $faker->imageUrl(400, 200);
+    $imageUrl = imageUrl(400, 200);
     $filePath = saveImage($imageUrl);
 
     $uaLocaleFaker = \Faker\Factory::create('uk_UA');
