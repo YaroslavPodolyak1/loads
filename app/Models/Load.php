@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Casts\Json;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Translatable\HasTranslations;
 
 class Load extends Model
@@ -13,15 +12,14 @@ class Load extends Model
 
     public $timestamps = false;
     public $translatable = ['name'];
-    public $casts = ['name' => Json::class];
 
-    public function dispatchCity(): HasOne
+    public function dispatchCity(): BelongsTo
     {
-        return $this->hasOne(City::class, 'id', 'city_from_id');
+        return $this->belongsTo(City::class, 'city_from_id');
     }
 
-    public function receivingCity(): HasOne
+    public function receivingCity(): BelongsTo
     {
-        return $this->hasOne(City::class, 'id', 'city_to_id');
+        return $this->belongsTo(City::class, 'city_to_id');
     }
 }

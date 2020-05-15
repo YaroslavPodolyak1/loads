@@ -27,10 +27,11 @@ class CitiesSeeder extends Seeder
 
     public function run(): void
     {
-        DB::table('cities')->truncate();
+        (new City)->forceDelete();
 
         foreach ($this->cities as $city) {
             City::create([
+                'slug' => Str::lower(Str::slug($city['name'])),
                 'name' => [
                     'en' => Str::slug($city['name']),
                     'uk' => $city['name'],

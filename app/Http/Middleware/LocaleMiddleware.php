@@ -7,16 +7,14 @@ use Illuminate\Support\Facades\App;
 
 class LocaleMiddleware
 {
-    public static $defaultLanguage = 'en';
     public static $languages = ['en', 'uk'];
 
     public static function getLocale()
     {
-
         $localeSegment = request()->segment(1);
         if (! empty($localeSegment) && in_array($localeSegment, self::$languages)) {
 
-            if ($localeSegment != self::$defaultLanguage) {
+            if ($localeSegment != config('app.locale')) {
                 return $localeSegment;
             }
 
@@ -40,7 +38,7 @@ class LocaleMiddleware
         if ($locale) {
             App::setLocale($locale);
         } else {
-            App::setLocale(self::$defaultLanguage);
+            App::setLocale(config('app.locale'));
         }
 
         return $next($request);

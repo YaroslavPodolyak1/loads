@@ -2,28 +2,29 @@
 
 namespace App\Events;
 
-use App\Queries\LoadIndexQuery;
+use App\Http\Resources\LoadsResource;
+use App\Models\Load;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Collection;
 
 class CreatedLoad implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $loads;
+    public $load;
 
-    public function __construct(Collection $loads)
+    public function __construct(Load $load)
     {
-        $this->loads = tap(LoadIndexQuery::getLoadsInSchedule($loads));
+        $this->load = LoadsResource::make(
+            $load->load(['dispatchCity', 'receivingCity'])
+        )->toJson();
     }
 
     public function broadcastOn()
     {
         return new Channel('load-channel');
     }
-
 }

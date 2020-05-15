@@ -11,6 +11,7 @@ class CreateCitiesTable extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
+            $table->string('slug');
             $table->json('name');
             $table->double('lat');
             $table->double('lng');

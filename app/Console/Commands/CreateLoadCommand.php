@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Events\CreatedLoad;
 use App\Models\Load;
 use Illuminate\Console\Command;
 
@@ -16,9 +15,7 @@ class CreateLoadCommand extends Command
     public function handle()
     {
         $createLoadCount = (int) $this->argument('count');
-        $loads = factory(Load::class, $createLoadCount)->create();
-        CreatedLoad::dispatch($loads->pluck(['id']));
-
+        factory(Load::class, $createLoadCount)->create();
         $this->info("Created {$createLoadCount} load");
     }
 }

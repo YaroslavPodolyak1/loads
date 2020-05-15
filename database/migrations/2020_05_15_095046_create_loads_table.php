@@ -13,13 +13,28 @@ class CreateLoadsTable extends Migration
             $table->unsignedBigInteger('city_from_id');
             $table->unsignedBigInteger('city_to_id');
             $table->json('name');
-            $table->string('volume', 20);
+            $table->float('volume');
             $table->string('photo');
+
+            $table
+                ->foreign('city_from_id')
+                ->references('id')
+                ->on('cities')
+                ->onDelete('cascade');
+            $table
+                ->foreign('city_to_id')
+                ->references('id')
+                ->on('cities')
+                ->onDelete('cascade');
         });
     }
 
     public function down(): void
     {
         Schema::dropIfExists('loads');
+        Schema::table('loads', function (Blueprint $table) {
+            $table->dropForeign('city_from_id');
+            $table->dropForeign('city_to_id');
+        });
     }
 }

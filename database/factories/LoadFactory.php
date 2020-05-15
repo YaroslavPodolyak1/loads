@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Faker\Generator as Faker;
 
 $factory->define(Load::class, function (Faker $faker) {
-    $imageUrl = imageUrl(400, 200);
-    $filePath = saveImage($imageUrl);
+    $filePath = saveImage(public_path('img/fake_img.jpg'));
 
     $uaLocaleFaker = \Faker\Factory::create('uk_UA');
 
@@ -15,7 +14,16 @@ $factory->define(Load::class, function (Faker $faker) {
         'city_from_id' => City::all()->random(1)->first()->id,
         'city_to_id' => City::all()->random(1)->first()->id,
         'name' => ['en' => $faker->sentence, 'uk' => $uaLocaleFaker->company],
-        'volume' => $faker->randomDigit . 'т',
+        'volume' => $faker->randomDigit,
         'photo' => $filePath ? Storage::url($filePath) : '',
     ];
 });
+
+function saveImage(string $imageUrl, string $disk = 'public'): ?string
+{
+    $contents = file_get_contents($imageUrl);
+    $name = substr($imageUrl, strrpos($imageUrl, '?') + 1);
+
+    return Storage::disk($disk)->put('loads/' . md5($name) . '.jpg', $contents) ? 'loads/' . md5($name) . '.jpg' : null;
+}
+
