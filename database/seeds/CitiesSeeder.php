@@ -27,8 +27,6 @@ class CitiesSeeder extends Seeder
 
     public function run(): void
     {
-        (new City)->forceDelete();
-
         foreach ($this->cities as $city) {
             City::create([
                 'slug' => Str::lower(Str::slug($city['name'])),
